@@ -46,7 +46,7 @@
 //
 //}
 
-package register
+package Registration
 
 import (
 	"github.com/Immerser01/InternAssignment/tree/main/Storage/Database"

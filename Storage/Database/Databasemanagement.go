@@ -2,7 +2,6 @@ package Database
 
 import (
 	"database/sql"
-	. "github.com/Immerser01/InternAssignment/tree/main/Storage/DatabaseStruct"
 )
 
 type Database struct {
