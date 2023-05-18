@@ -2,6 +2,8 @@ package Database
 
 import (
 	"database/sql"
+	. "github.com/Immerser01/InternAssignment/tree/main/Storage/DatabaseStruct"
+	_ "github.com/lib/pq"
 )
 
 type Database struct {
@@ -13,7 +15,6 @@ func NewDatabase(connString string) (*Database, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return &Database{db: db}, nil
 }
 
@@ -22,8 +23,12 @@ func (d *Database) Close() error {
 }
 
 func (d *Database) InsertUser(User *UserData) error {
-	_, err := d.db.Exec("INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
-		User.Name, User.Email, User.Password)
+	_, err := d.db.Exec(
+		"INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
+		User.Name,
+		User.Email,
+		User.Password,
+	)
 	if err != nil {
 		return err
 	}
