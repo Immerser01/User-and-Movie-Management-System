@@ -1,4 +1,4 @@
-#This server has 5 kind of operations:
+#This server has 6 kind of operations:
 
 #RegisterUser (POST): "/users" 
 
