@@ -11,35 +11,52 @@ type CredentialHandler struct {
 	DB *sql.DB
 }
 
-// Only for Administrator
-func (h *CredentialHandler) ListCredentials(c *gin.Context) {
-	rows, err := h.DB.Query("SELECT id, password FROM Credential")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential listing error"})
+func (h *CredentialHandler) UpdateCredentials(c *gin.Context) {
+	var credential Credentials.Credential
+	if err := c.ShouldBindJSON(&credential); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Create Credential connecting error"})
 		return
 	}
-	defer rows.Close()
 
-	var cred []Credentials.Credential
-	for rows.Next() {
-		var credential Credentials.Credential
-		if err := rows.Scan(&credential.ID, &credential.Password, &credential.CreatedAt); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential accessing error"})
-			return
-		}
-		cred = append(cred, credential)
+	if credential.Password == "" {
+		c.JSON(500, gin.H{
+			"ERROR": "None of the Credentials fields can be empty!"})
+		return
 	}
 
-	c.JSON(http.StatusOK, cred)
+	// Insert user into the database
+	query := `
+		INSERT INTO Credential (id, password)
+		VALUES ($1, $2)
+		RETURNING created_at
+	`
+	err := h.DB.QueryRow(query, credential.ID, credential.Password).Scan(&credential.CreatedAt)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential Creating error"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, credential)
 }
 
-//query2 := `
-//	INSERT INTO Credential (id, password)
-//	VALUES ($1, $2)
-//	RETURNING created_at
-//`
-//err = h.DB.QueryRow(query2, credential.ID, credential.Password).Scan(&user.CreatedAt)
-//if err != nil {
-//	c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential table error"})
-//	return
+// Only for Administrator
+//func (h *CredentialHandler) ListCredentials(c *gin.Context) {
+//	rows, err := h.DB.Query("SELECT id, password FROM Credential")
+//	if err != nil {
+//		c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential listing error"})
+//		return
+//	}
+//	defer rows.Close()
+//
+//	var cred []Credentials.Credential
+//	for rows.Next() {
+//		var credential Credentials.Credential
+//		if err := rows.Scan(&credential.ID, &credential.Password); err != nil {
+//			c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential accessing error"})
+//			return
+//		}
+//		cred = append(cred, credential)
+//	}
+//
+//	c.JSON(http.StatusOK, cred)
 //}

@@ -40,11 +40,11 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 
 	// Insert user into the database
 	query := `
-		INSERT INTO UserData (email, name, dob, password)
-		VALUES ($1, $2, $3, $4)
+		INSERT INTO UserData (email, name, dob)
+		VALUES ($1, $2, $3)
 		RETURNING id, created_at
 	`
-	err := h.DB.QueryRow(query, user.Email, user.Name, user.DOB, user.Password).Scan(&user.ID, &user.CreatedAt)
+	err := h.DB.QueryRow(query, user.Email, user.Name, user.DOB).Scan(&user.ID, &user.CreatedAt)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Create user error 2"})
 		return
