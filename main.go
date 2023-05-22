@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	_ "github.com/Immerser01/InternAssignment/tree/main/Handler/CredentialHandler"
 	"github.com/Immerser01/InternAssignment/tree/main/Handler/Moviehandler"
 	"github.com/Immerser01/InternAssignment/tree/main/Handler/UserHandler"
 	"github.com/gin-gonic/gin"
@@ -54,7 +55,7 @@ func main() {
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS Credential (
 			id SERIAL PRIMARY KEY,
-			password VARCHAR(255) NOT NULL
+			password VARCHAR(255) NOT NULL,
 			created_at TIMESTAMP NOT NULL DEFAULT NOW()
 			
 		)
@@ -73,11 +74,13 @@ func main() {
 	movieHandler := &Moviehandler.MovieHandler{
 		DB: db,
 	}
-
+	//credentialHandler := &CredentialHandler.CredentialHandler{
+	//	DB: db,
+	//}
 	// Register user endpoints
 	r.POST("/users", userHandler.CreateUser)
 	r.GET("/users", userHandler.ListUsers)
-
+	//r.GET("/AdminCredentialsPage", credentialHandler.ListCredentials)
 	// Register movie endpoints
 	r.POST("/movies", movieHandler.AddMovie)
 	r.DELETE("/movies/:id", movieHandler.DeleteMovie)
