@@ -26,11 +26,18 @@
 #ListMoviesByUser (GET):
 
 - It Lists all the movies of the user, by its user_id.
+- (UPDATE) Now, it requires password along with the user id. Otherwise it will simply skip the tables.  
+- (UPDATE) You will get to know if the password is wrong, or user doesn't exist though, so don't worry too much.
 
+#(UPDATE) UpdateCredentials (POST):
 
-
+- It is used to update your credentials.
+- It is not automatic, you have to manually update with the id you get from create user function.
+- It is absolutely necessery to do this. Otherwise List Movies by user function will not work.
 
 #Planned Features:
 
 - Integrating Password in other functions to ensure the right user is using the software
 - Deleting movies separately per user
+- Deleting User and their Credentials
+- Merging both Create User and Create Credentials function
