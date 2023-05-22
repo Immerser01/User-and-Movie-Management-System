@@ -32,7 +32,7 @@ func (h *CredentialHandler) UpdateCredentials(c *gin.Context) {
 	`
 	err := h.DB.QueryRow(query, credential.ID, credential.Password).Scan(&credential.CreatedAt)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential Creating error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Duplicate ID. Please don't do this."})
 		return
 	}
 
@@ -40,23 +40,23 @@ func (h *CredentialHandler) UpdateCredentials(c *gin.Context) {
 }
 
 // Only for Administrator
-//func (h *CredentialHandler) ListCredentials(c *gin.Context) {
-//	rows, err := h.DB.Query("SELECT id, password FROM Credential")
-//	if err != nil {
-//		c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential listing error"})
-//		return
-//	}
-//	defer rows.Close()
-//
-//	var cred []Credentials.Credential
-//	for rows.Next() {
-//		var credential Credentials.Credential
-//		if err := rows.Scan(&credential.ID, &credential.Password); err != nil {
-//			c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential accessing error"})
-//			return
-//		}
-//		cred = append(cred, credential)
-//	}
-//
-//	c.JSON(http.StatusOK, cred)
-//}
+func (h *CredentialHandler) ListCredentials(c *gin.Context) {
+	rows, err := h.DB.Query("SELECT id, password FROM Credential")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential listing error"})
+		return
+	}
+	defer rows.Close()
+
+	var cred []Credentials.Credential
+	for rows.Next() {
+		var credential Credentials.Credential
+		if err := rows.Scan(&credential.ID, &credential.Password); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential accessing error"})
+			return
+		}
+		cred = append(cred, credential)
+	}
+
+	c.JSON(http.StatusOK, cred)
+}

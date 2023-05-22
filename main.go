@@ -81,7 +81,7 @@ func main() {
 	r.POST("/users", userHandler.CreateUser)
 	r.POST("/credentials", credentialHandler.UpdateCredentials)
 	r.GET("/users", userHandler.ListUsers)
-	//r.GET("/AdminCredentialsPage", credentialHandler.ListCredentials)
+	r.GET("/AdminCredentialsPage", credentialHandler.ListCredentials)
 	r.POST("/movies", movieHandler.AddMovie)
 	r.DELETE("/movies/:id", movieHandler.DeleteMovie)
 	r.GET("/movies/:userid", movieHandler.ListMoviesByUser)
