@@ -1,1 +1,0 @@
-Just a temperory file to check functioning of git push.
