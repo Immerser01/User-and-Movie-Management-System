@@ -84,7 +84,7 @@ func main() {
 	r.GET("/AdminCredentialsPage", credentialHandler.ListCredentials)
 	r.POST("/movies", movieHandler.AddMovie)
 	r.DELETE("/movies/:id", movieHandler.DeleteMovie)
-	r.GET("/movies/:userid", movieHandler.ListMoviesByUser)
+	r.GET("/movies/:id/:password, movieHandler.ListMoviesByUser", movieHandler.ListMoviesByUser)
 
 	// Run the server
 	if err := r.Run(":8080"); err != nil {
