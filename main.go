@@ -51,6 +51,18 @@ func main() {
 		log.Fatal(err)
 	}
 
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS Credential (
+			id SERIAL PRIMARY KEY,
+			password VARCHAR(255) NOT NULL
+			created_at TIMESTAMP NOT NULL DEFAULT NOW()
+			
+		)
+	`)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Initialize Gin router
 	r := gin.Default()
 
