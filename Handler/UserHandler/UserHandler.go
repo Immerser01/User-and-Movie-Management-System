@@ -55,15 +55,15 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 
 // ListUsers lists all registered users
 func (h *UserHandler) ListUsers(c *gin.Context) {
-	accessPassword := c.Param("password")
+	accessPassword := c.Param("accessPassword")
 
 	c.JSON(http.StatusOK, gin.H{
 		"accessPassword": accessPassword,
 	})
 	query := `
-		SELECT id, email, name, dob, created_at FROM UserData;
+		SELECT id, email, name, dob, created_at FROM UserData WHERE EXISTS (SELECT password FROM Admin WHERE password= $1);
 	`
-	rows, err := h.DB.Query(query)
+	rows, err := h.DB.Query(query, accessPassword)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error in List Users function"})
 		return
@@ -79,6 +79,9 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 		}
 		users = append(users, user)
 	}
-
+	if len(users) == 0 {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Either there are no users, or you are have the incorrect access password. Somehow I doubt the first one is true."})
+		return
+	}
 	c.JSON(http.StatusOK, users)
 }
