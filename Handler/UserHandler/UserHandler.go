@@ -61,9 +61,9 @@ func (h *UserHandler) ListUsers(c *gin.Context) {
 		"accessPassword": accessPassword,
 	})
 	query := `
-		SELECT id, email, name, dob, created_at FROM UserData WHERE EXISTS (SELECT 1 FROM Admin WHERE password = $1);
+		SELECT id, email, name, dob, created_at FROM UserData;
 	`
-	rows, err := h.DB.Query(query, accessPassword)
+	rows, err := h.DB.Query(query)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error in List Users function"})
 		return
