@@ -35,9 +35,10 @@
 - It is not automatic, you have to manually update with the id you get from create user function.
 - It is absolutely necessery to do this. Otherwise List Movies by user function will not work.
 
+##(UPDATE)
+
 #Planned Features:
 
-- Integrating Password in other functions to ensure the right user is using the software
 - Deleting movies separately per user
 - Deleting User and their Credentials
 - Merging both Create User and Create Credentials function
