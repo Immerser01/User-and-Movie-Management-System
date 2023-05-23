@@ -1,4 +1,5 @@
-#This server has 6 kind of operations:
+- This server has functions related to Users and Movies
+- Credentials and Admin functions are provided for security
 
 #RegisterUser (POST): "/users" 
 
