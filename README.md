@@ -35,7 +35,16 @@
 - It is not automatic, you have to manually update with the id you get from create user function.
 - It is absolutely necessery to do this. Otherwise List Movies by user function will not work.
 
-##(UPDATE)
+#(UPDATE) Admin Features (GET, POST, DELETE):
+
+- Now Added Authentication based on passwords, managed by a central password, that allows secondary admins to access the databases.
+- These Passwords can only be modified by the main admin, and distributed among other admins.
+- List Credentials is extempt, since it contains sensitive data regarding credentials of other users. (It can be modified on demand)
+
+#(UPDATE) List Credentials (GET):
+
+- By entering the main password, one can see the credentials of all users.
+- This is not possible by the secondary admin passwords
 
 #Planned Features:
 
