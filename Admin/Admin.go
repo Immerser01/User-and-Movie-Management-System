@@ -3,6 +3,7 @@ package Admin
 import (
 	"database/sql"
 	"github.com/Immerser01/InternAssignment/tree/main/Models"
+	"github.com/Immerser01/InternAssignment/tree/main/Models/Credentials"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -117,5 +118,37 @@ func (h *AdminHandler) DeletePassword(c *gin.Context) {
 	} else {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "main password wrong"})
 		return
+	}
+}
+
+// Only for Administrator
+func (h *AdminHandler) ListCredentials(c *gin.Context) {
+	mainPassword := c.Param("mainPassword")
+
+	c.JSON(http.StatusOK, gin.H{
+		"mainPassword": mainPassword,
+	})
+
+	if mainPassword == CentralPassword {
+		rows, err := h.DB.Query("SELECT id, password FROM Credential")
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential listing error"})
+			return
+		}
+		defer rows.Close()
+
+		var cred []Credentials.Credential
+		for rows.Next() {
+			var credential Credentials.Credential
+			if err := rows.Scan(&credential.ID, &credential.Password); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Credential accessing error"})
+				return
+			}
+			cred = append(cred, credential)
+		}
+
+		c.JSON(http.StatusOK, cred)
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect Main Password"})
 	}
 }
