@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"github.com/Immerser01/InternAssignment/tree/main/Admin"
 	CredentialHandler "github.com/Immerser01/InternAssignment/tree/main/Handler/CredentialHandler"
 	_ "github.com/Immerser01/InternAssignment/tree/main/Handler/CredentialHandler"
 	"github.com/Immerser01/InternAssignment/tree/main/Handler/Moviehandler"
@@ -64,6 +65,19 @@ func main() {
 		log.Fatal(err)
 	}
 
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS Admin (
+		    
+		    mainPassword VARCHAR(255) NOT NULL,
+			password VARCHAR(255) NOT NULL,
+			created_at TIMESTAMP NOT NULL DEFAULT NOW()
+			
+		)
+	`)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Initialize Gin router
 	r := gin.Default()
 
@@ -77,14 +91,20 @@ func main() {
 	credentialHandler := &CredentialHandler.CredentialHandler{
 		DB: db,
 	}
+	adminHandler := &Admin.AdminHandler{
+		DB: db,
+	}
 
 	r.POST("/users", userHandler.CreateUser)
 	r.POST("/credentials", credentialHandler.UpdateCredentials)
-	r.GET("/users", userHandler.ListUsers)
+	r.GET("/users/:accessPassword", userHandler.ListUsers)
 	r.GET("/AdminCredentialsPage", credentialHandler.ListCredentials)
 	r.POST("/movies", movieHandler.AddMovie)
 	r.DELETE("/movies/:id", movieHandler.DeleteMovie)
-	r.GET("/movies/:id/:password, movieHandler.ListMoviesByUser", movieHandler.ListMoviesByUser)
+	r.GET("/movies/:id/:password", movieHandler.ListMoviesByUser)
+	r.POST("/admin", adminHandler.PasswordManager)
+	r.DELETE("admin/:password/:mainPassword", adminHandler.DeletePassword)
+	r.GET("admin/:mainPassword", adminHandler.ListPassword)
 
 	// Run the server
 	if err := r.Run(":8080"); err != nil {

@@ -55,9 +55,17 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 
 // ListUsers lists all registered users
 func (h *UserHandler) ListUsers(c *gin.Context) {
-	rows, err := h.DB.Query("SELECT id, email, name, dob, created_at FROM UserData")
+	accessPassword := c.Param("password")
+
+	c.JSON(http.StatusOK, gin.H{
+		"accessPassword": accessPassword,
+	})
+	query := `
+		SELECT id, email, name, dob, created_at FROM UserData WHERE EXISTS (SELECT 1 FROM Admin WHERE password = $1);
+	`
+	rows, err := h.DB.Query(query, accessPassword)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "LUE1"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error in List Users function"})
 		return
 	}
 	defer rows.Close()
