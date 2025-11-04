@@ -2,7 +2,7 @@ package UserHandler
 
 import (
 	"database/sql"
-	"github.com/Immerser01/InternAssignment/tree/main/Models/User"
+	"github.com/Immerser01/User-and-Movie-Management-System/tree/main/Models/User"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"regexp"
