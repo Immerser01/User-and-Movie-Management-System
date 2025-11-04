@@ -2,9 +2,9 @@ package main
 
 import (
 	"database/sql"
-	_ "github.com/Immerser01/InternAssignment/tree/main/Handler/CredentialHandler"
-	"github.com/Immerser01/InternAssignment/tree/main/Models"
-	"github.com/Immerser01/InternAssignment/tree/main/Routes"
+	_ "github.com/Immerser01/User-and-Movie-Management-System/tree/main/Handler/CredentialHandler"
+	"github.com/Immerser01/User-and-Movie-Management-System/tree/main/Models"
+	"github.com/Immerser01/User-and-Movie-Management-System/tree/main/Routes"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"log"
