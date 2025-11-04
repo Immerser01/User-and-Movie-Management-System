@@ -2,8 +2,8 @@ package Admin
 
 import (
 	"database/sql"
-	"github.com/Immerser01/InternAssignment/tree/main/Models"
-	"github.com/Immerser01/InternAssignment/tree/main/Models/Credentials"
+	"github.com/Immerser01/User-and-Movie-Management-System/tree/main/Models"
+	"github.com/Immerser01/User-and-Movie-Management-System/tree/main/Models/Credentials"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
