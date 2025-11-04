@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// Database connection
-	db, err := sql.Open("postgres", "postgres://sylvian-knight:Root2is1!414@localhost/InternAssignment?sslmode=disable")
+	db, err := sql.Open("postgres", "postgres://$username$:$password$@localhost/$assignment$?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
