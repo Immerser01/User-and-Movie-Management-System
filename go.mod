@@ -1,4 +1,4 @@
-module github.com/Immerser01/InternAssignment/tree/main
+module github.com/Immerser01/User-and-Movie-Management-System/tree/main
 
 go 1.20
 
