@@ -2,7 +2,7 @@ package CredentialHandler
 
 import (
 	"database/sql"
-	"https://github.com/Immerser01/User-and-Movie-Management-System/tree/main/Models/Credentials"
+	"github.com/Immerser01/User-and-Movie-Management-System/tree/main/Models/Credentials"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
